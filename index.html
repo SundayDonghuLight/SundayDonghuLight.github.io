@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AEE-GAN</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+<div class="demo">
+  <h1><center>Attended Ecology Embedding Generative Adversarial Network</h1>
+  
+  <h1><font size="5"><center>Modified Figure 1</font></h1>
+    <figure><img src="https://github.com/Ego2Eco/Ego2Eco.github.io/blob/master/images/attention_revise.png?raw=true" width="640" height="236"/></figure>
+    <p>Illustration of the enforced attention mechanism in AEE-GAN in the heterogeneous environment. Figure (a) presents the predicted trajectories in the traffic scene, in which the prediction result is colored in green with the observed trajectory in orange and the ground truth is colored in blue. In figure (b), we show that the pedestrians in the horizon region (yellow region) are more attended than other road-agents by our model, and AEE-GAN is able to attend the related visual features for prediction, where the white portions indicate the attended region. </p>
+  <h1><font size="5"><center>Prediction Results of AEE-GAN</font></h1>
+    <p>In this section, we will show how our model performs in a dense and complex environment. The ground truth is colored in blue, and the predicted trajectory of our model is colored in green, compared with the result of TraPHic in pink.</p>
+    <figure><img src="https://github.com/Ego2Eco/Ego2Eco.github.io/blob/master/images/15.gif?raw=true" width="640" height="480"/></figure>
+    <figure><img src="https://github.com/Ego2Eco/Ego2Eco.github.io/blob/master/images/predict_2853.png?raw=true" width="640" height="480"/></figure>
+  <p>The result shows the turning right movement of the red car (highlighted in the second picture) in the middle of the intersection has been successfully predicted by our model, and the trajectories of the follow-up cars have been accurately predicted as well, indicating that the interaction of road-agents in the complex intersection scene could be captured by our model.</p>
+    
+<!--   <figure><img src="https://github.com/Ego2Eco/Ego2Eco.github.io/blob/master/images/3.gif?raw=true" width="640" height="480"/></figure>
+  <p>In this example, ground truth is colored in blue, and the predicted trajectory of our model is colored in green compared with the result of TraPHic in pink. The result demonstrates that our model could capture the complex interactions by predicting decent trajectories of the crowd, and our model simultaneously captures the motion pattern of the right-turned white car, which is slowed down to wait for the passing pedestrians and completes the right turn.</p> -->
+  
+    <figure><img src="https://github.com/Ego2Eco/Ego2Eco.github.io/blob/master/images/new.gif?raw=true" width="640" height="480"/></figure>
+    <figure><img src="https://github.com/Ego2Eco/Ego2Eco.github.io/blob/master/images/predict_2295.png?raw=true" width="640" height="480"/></figure>
+  <p>The result demonstrates that our model could capture the motion pattern of the left-turned red car (highlighted in the second picture) in the middle of the intersection, which is slowed down to wait for the passing cars and completes the left turn. Furthermore, our model is able to simultaneously predicts the accurate results of other road-agents.</p>
+    
+  <figure><img src="https://github.com/Ego2Eco/Ego2Eco.github.io/blob/master/images/25.gif?raw=true" width="640" height="480"/></figure>
+  <p>This experiment result shows that the pedestrian in white (dark green dot) from the right side were initially moving upward. Once the interaction of the upcoming pedestrians in blue and orange (green and yellow dots) was sensed, our model generates descending trajectories to avoid the collision.</p>
+    
+    <h1><font size="5"><center>Ablation Study</font></h1>
+    <figure><img src="https://github.com/Ego2Eco/Ego2Eco.github.io/blob/master/images/ablation%20study.png?raw=true"  width="640" height="50"/></figure>
+    <p>This is the supplement of the ablation studies in the paper (Table 4), discussing the effect of two main modules, RVAE and SE. Furthermore, we also show the performance of the model without using the recurrent process in RVAE module to justify the effect of it. We conduct the ablation study by leave-one-out analysis on the Waymo dataset, i.e., our complete model (AEE-GAN), AEE-GAN without using Social Enforcement module (SEo), AEE-GAN without using Recurrent Visual Attention Enforcement module (RVAEo), AEE-GAN without recurrently computing the attention between the predicted results and the visual features (Ro), AEE-GAN without using Horizon Attention module (Ho) and AEE-GAN without using the Self Attention module (So).</p> 
+      <p>As shown in the table, SEo performs the worst compared to other ablation settings due to ignoring the influence of the interaction between road-agents. RVAEo performs better than SEo and the baselines, suggesting that the combination of Social Attention and Horizon Attention does help the model to learn to distribute the attention weight more properly and thus to predict more accurate predictions. For the concern about the design of the recurrent process in the RVAE module, Ro shows that it can help to model the agent-space interaction and improve the prediction result. In summary, solely use of the SE module provides the most significant improvement in the trajectory prediction task, and the model would achieve its best performance after combining it with the RVAE module.</p>
+    
+<!--       <h1><font size="5"><center>Time Table</font></h1></center>
+  <figure><img src="https://github.com/Ego2Eco/Ego2Eco.github.io/blob/master/images/time%20table.png?raw=true"  width="640" height="85"/></figure>
+  <p>Computation time comparison table. In this table, we compare the execution time of our model with three trajectory prediction methods, i.e., S-GAN-P, S-Ways, TraPHic, and AEE-GAN. The execution time is reported in seconds per frame. As mentioned in Q6, our model takes more computation time than other methods since we have to consider the interaction between agents and scenes. It is one of the limitations that we want to improve in the future.</p> -->
+      <h1><font size="5"><center>Prediction Distribution of SDD</h1></font></center></font>
+      <figure><img src="https://github.com/Ego2Eco/Ego2Eco.github.io/blob/master/images/SDD.png?raw=true" width="640" height="480"/></figure>
+       <p>This is the supplement to the Qualitative Results, corresponding to the figure 3 in the paper. The distribution of trajectories is presented in red, and the 30 random starting samples are illustrated as blue crosses. The experiment result shows that our model predicts results that follow the physical constraint on the image in cases such as roundabout and forked road.</p>
+      <h1><font size="5"><center>Visualizations of RVAE</font></h1></center>
+  
+  <p>We use Grad-Cam [A] to visualize our result of visual attention. The heatmap represents the attention weight toward the image pixels, which the warmer it gets indicates that the higher attention weight it is. The predicted result of trajectory and ground truth is colored in green and blue, respectively.</p>
+  <p>[A]  R. R.Selvaraju, A. Das, R. Vedantam, M. Cogswell,
+D. Parikh, and D. Batra. Grad-cam: Why did you say that?
+visual explanations from deep networks via gradient-based
+localization. arXiv:1611.01646, 2016.</p>
+    <h1><font size="4">Stanford Drone Dataset (SDD):</font></h1>
+    
+    <figure><img src="https://github.com/Ego2Eco/Ego2Eco.github.io/blob/master/images/11cam.png?raw=true" width="640" height="184"/></figure>
+  <p>The result in (a) indicates that our model has the ability to attend the region where exists a physical constraint and predicts the corresponding trajectory to bypass the parking lot. The result in (b) shows that the predicted trajectory follows the road line marking in the attended region. Moreover, the result in (c) shows that the nearby terrain is observed (left attended region) and the information of the crossing is captured (right attended region) to determine the moving direction. Referring to the attended features, the predicted trajectory moves along the roundabout instead of moving into the crossing downward.</p>
+    
+    <p>---------------------------------------------------------------------------------------------------------------------------------------</p>
+    <h1><font size="4">Waymo Dataset:</font></h1>
+    <figure><img src="https://github.com/Ego2Eco/Ego2Eco.github.io/blob/master/images/waymo4.png?raw=true" width="640" height="211"/></figure>
+   
+  <p>In this section, we use the same visualization method on our visual attention of Waymo dataset. The prediction result is colored in green with the ground truth colored in blue. The significant difference between the two datasets is the camera angle, where the SDD is mostly presented in a top-down view, while the Waymo set is mostly presented in front view. This difference leads to an interesting comparison between the visual attention of two datasets. Unlike SDD, where our attention module often focuses on the region which might “potentially” affect the prediction result,  the figure shows that the attended region on Waymo dataset often appears on the area where the predicted trajectory points. Due to the comprehensive traffic information presented in the top-down view dataset (SDD), our model could learn to focus on the specific region which might affect prediction results the most from the overall traffic scene. However, due to limited visual information from the front view dataset (Waymo), the attention module could only focus on the region which is informative for the predicted trajectories based on the current image.</p>
+    <figure><img src="https://github.com/Ego2Eco/Ego2Eco.github.io/blob/master/images/4cam.png?raw=true" width="640" height="480"/></figure>
+    <p>The example shows an interesting result, in which our model attends the back and the front of the car while it is making a U-turn. Although the prediction result is far from ground truth which only moves slightly forward in the turning process, the predicted trajectory seems reasonable to finish the U-turn.
+</p>
+    
+     <h1><font size="5"><center>Variance Analysis</font></h1></center>
+  <figure><img src="https://github.com/Ego2Eco/Ego2Eco.github.io/blob/master/images/varience.png?raw=true" width="640" height="286"/></figure>
+    <p>This experiment shows the variance of the trajectory distribution. We generate 20 trajectories colored in red, with the ground truth in blue and the observed trajectories in orange. Compared to S-GAN in the image (a), the distribution of our prediction result is more accurate and concentrated, which implies that our model could generate more plausible results with lower variance.</p>
+    
+    <h1><font size="5"><center>Implementation details</font></h1>
+  <p>For Feature Encoder, we extract the visual features by fully convolutional networks and derive the feature maps with 512 channels, while the observed trajectories are encoded by a fully connected layer with the embedding size of 5*64, fed into an LSTM with a dimension of 64 for the hidden state. The social features are embedded through a fully-connected layer with the embedding size 64. </p>
+    <p>For Enforced Attention, the self-attention visual features are encoded by a 3*3 convolutional layer and one fully-connected layer with the dimension of 64. c' is set as c/8 due to the memory efficiency. Horizon Attention considers the road-agents in the horizon range within 10 meters, i.e., d=10. The decoder of generator uses LSTM with the hidden state of 64 dimensions to decode the predictions, while the discriminator uses two LSTM encoders with the hidden size of 64 dimensions to separately encode predicted trajectories and the observed path, and are further processed through two fully-connected layers with a size of 64 and 32.</p> 
+  <p>Finally, these outputs are concatenated and fed in two separate blocks: Trajectory Classifier and Latent Code Decoder which are consists of two fully-connected layers with respective size of (32,1) and (32,2). The proposed AEE-GAN is trained for 20000 epochs by Adam optimizer with a mini-batch size of 256. The learning rates for the generator and the discriminator are both 0.0001, and spectral normalization is used for layers in both generator and the discriminator.</p>
+    
+<h1><font size="5"><center>More Qualitative Results</font></h1>
+    <figure><img src="https://raw.githubusercontent.com/Ego2Eco/Ego2Eco.github.io/master/images/visual.png"  width="640" height="480"/></figure>
+  <p>Visualization of the distribution of the prediction trajectories, corresponding to figure 3 in the paper. The distribution of trajectories is presented in red, and the 30 random starting samples are illustrated as blue crosses.</p>
+      <figure><img src="https://raw.githubusercontent.com/Ego2Eco/Ego2Eco.github.io/master/images/horizon.png"  width="640" height="480"/></figure>
+      <p><center>Blue: Ground truth; Dotted line of other colors: Observed Trajectory; Solid line of other colors: Prediction Trajectory</p></center>
+    <p>This figure is corresponding to the figure 4 in the paper, showing more examples of the horizon attention.</p>
+    <p> In the first scenario, figure (a) visualizes the attention weights of the Social Enforcement module, and figure (b) shows the prediction trajectories. S-WAYS fails to emphasize on the road-agents in front of the predicted agent but only focuses on the neighboring agent. As such, the red predicted trajectory occur collision. In contrast, our model can provide a more appropriate attention weights distribution that allows the predicted agent to notice important regions and predict a movement to avoid the collision.</p>
+<p>In the second scenario, figure (c) visualizes the attention weights of the Social Enforcement module, and figure (d) shows the prediction trajectories. S-WAYS fails to emphasize on the neighboring road-agents with the same walking direction next to the predicted agent; instead, it focuses on the neighboring agent behind. In contrast, our model can provide well-balanced weights on the neighboring agents which help predict more socially plausible trajectories compared to the other.</p>  
+
+  <h1><font size="5"><center>More Results of Waymo Dataset</h1></center></font>
+    <p><center>Blue: Ground Truth, Green: AEE-GAN, Pink: TraPHic</p></center>
+      <figure><img src="https://raw.githubusercontent.com/Ego2Eco/Ego2Eco.github.io/master/images/predict_3654.png" width="640" height="480"/></figure>
+      <figure><img src="https://raw.githubusercontent.com/Ego2Eco/Ego2Eco.github.io/master/images/predict_3624.png" width="640" height="480"/></figure>
+      <figure><img src="https://raw.githubusercontent.com/Ego2Eco/Ego2Eco.github.io/master/images/predict_2820.png" width="640" height="480"/></figure>
+      <figure><img src="https://raw.githubusercontent.com/Ego2Eco/Ego2Eco.github.io/master/images/predict_2475.png" width="640" height="480"/></figure>
+     
+      <h1><center><font size="5">Prediction Results of Homogeneous dataset</font></h1>
+      <p><center>Blue: Ground truth; Other colors: Prediction Result</p></center>
+      <figure><img src="https://raw.githubusercontent.com/Ego2Eco/Ego2Eco.github.io/master/images/predict_8761.png" width="640" height="480"/></figure>
+       <figure><img src="https://raw.githubusercontent.com/Ego2Eco/Ego2Eco.github.io/master/images/predict_4793.png" width="640" height="480"/></figure>
+       <figure><img src="https://raw.githubusercontent.com/Ego2Eco/Ego2Eco.github.io/master/images/predict_6875.png" width="640" height="480"/></figure>
+       <figure><img src="https://raw.githubusercontent.com/Ego2Eco/Ego2Eco.github.io/master/images/predict_7829.png" width="640" height="480"/></figure>
+  
+</div>
